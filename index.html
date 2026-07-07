@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أحمد سليم — كوتشنج متقدم بأمان</title>
+    <meta name="description" content="بروتوكولات علمية ومتابعة تحاليل دقيقة للوصول لأقصى تطور لجسمك بأمان.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <div class="container">
+
+        <!-- الهيرو -->
+        <header class="hero section">
+            <span class="eyebrow">كوتشنج خاص ومحدود</span>
+            <h1>وصل لأقصى تطور <span class="gold-text">لجسمك</span> بأمان</h1>
+            <p class="subtitle">بروتوكولات هرمونات علمية + متابعة تحاليل دقيقة، من غير ما تخاطر بصحتك.</p>
+        </header>
+
+        <!-- فيديو VSL (Wistia) -->
+        <!-- للتبديل: استبدل MEDIA_ID بمعرّف فيديو Wistia الحقيقي -->
+        <section class="section">
+            <div class="video-container">
+                <iframe
+                    src="https://fast.wistia.net/embed/iframe/MEDIA_ID?videoFoam=true"
+                    title="فيديو التعريف"
+                    allow="autoplay; fullscreen"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </section>
+
+        <!-- Wizard الأسئلة (سؤال واحد لكل شاشة) -->
+        <section class="section">
+            <div class="wizard">
+                <div class="wizard-progress">
+                    <div class="wizard-progress-head">
+                        <span>كمّل بياناتك</span>
+                        <span class="step-count" id="stepCount">خطوة 1</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <form id="leadForm" class="wizard-body" novalidate onsubmit="return false;">
+                    <div id="wizard">
+
+                        <!-- 1) الاسم -->
+                        <div class="wizard-step active" data-field="name">
+                            <div class="question">إيه اسمك الكريم؟</div>
+                            <div class="hint">عشان نعرف نكلّمك بيه.</div>
+                            <input type="text" class="field" name="name" data-required="true" placeholder="اكتب اسمك هنا" autocomplete="name">
+                            <div class="error-message"></div>
+                        </div>
+
+                        <!-- 2) البريد الإلكتروني -->
+                        <div class="wizard-step" data-field="email">
+                            <div class="question">إيه بريدك الإلكتروني؟</div>
+                            <div class="hint">هنبعتلك عليه تفاصيل الخطوة الجاية.</div>
+                            <input type="email" class="field" name="email" data-required="true" placeholder="اكتب بريدك الإلكتروني هنا" autocomplete="email">
+                            <div class="error-message"></div>
+                        </div>
+
+                        <!-- 3) رقم الهاتف / واتساب -->
+                        <div class="wizard-step" data-field="phone">
+                            <div class="question">إيه رقم هاتفك (واتساب)؟</div>
+                            <div class="hint">عشان الكوتش يقدر يتواصل معاك مباشرة.</div>
+                            <input type="tel" class="field" name="phone" data-required="true" placeholder="أدخل رقمك مع مفتاح الدولة" autocomplete="tel" dir="ltr">
+                            <div class="error-message"></div>
+                        </div>
+
+                        <!-- 4) الهدف الأساسي -->
+                        <div class="wizard-step" data-field="goal" data-required="true">
+                            <div class="question">إيه هدفك الأساسي؟</div>
+                            <div class="hint">اختر الأقرب ليك.</div>
+                            <input type="hidden" name="goal">
+                            <div class="options">
+                                <button type="button" class="option-btn" data-value="ضخامة عضلية">ضخامة عضلية</button>
+                                <button type="button" class="option-btn" data-value="تنشيف وتقطيع">تنشيف وتقطيع</button>
+                                <button type="button" class="option-btn" data-value="تحضير بطولة">تحضير بطولة</button>
+                                <button type="button" class="option-btn" data-value="تحسين عام">تحسين عام</button>
+                            </div>
+                            <div class="error-message"></div>
+                        </div>
+
+                        <!-- 5) مدة التمرين المنتظم -->
+                        <div class="wizard-step" data-field="trainingDuration" data-required="true">
+                            <div class="question">بتتمرّن بانتظام بقالك قد إيه؟</div>
+                            <div class="hint">ده بيساعدنا نحدّد نقطة البداية.</div>
+                            <input type="hidden" name="trainingDuration">
+                            <div class="options">
+                                <button type="button" class="option-btn" data-value="أقل من سنتين">أقل من سنتين</button>
+                                <button type="button" class="option-btn" data-value="من سنتين لأربع سنين">من سنتين لأربع سنين</button>
+                                <button type="button" class="option-btn" data-value="من أربع لسبع سنين">من أربع لسبع سنين</button>
+                                <button type="button" class="option-btn" data-value="أكتر من سبع سنين">أكتر من سبع سنين</button>
+                            </div>
+                            <div class="error-message"></div>
+                        </div>
+
+                        <!-- 6) الميزانية الشهرية -->
+                        <div class="wizard-step" data-field="monthlyBudget" data-required="true">
+                            <div class="question">إيه الميزانية الشهرية اللي مستعد تستثمرها؟</div>
+                            <div class="hint">عشان نرشّحلك الخطة المناسبة.</div>
+                            <input type="hidden" name="monthlyBudget">
+                            <div class="options">
+                                <button type="button" class="option-btn" data-value="أقل من 300 دولار">أقل من ٣٠٠ دولار</button>
+                                <button type="button" class="option-btn" data-value="من 300 لـ 500 دولار">من ٣٠٠ لـ ٥٠٠ دولار</button>
+                                <button type="button" class="option-btn" data-value="أكتر من 500 دولار">أكتر من ٥٠٠ دولار</button>
+                            </div>
+                            <div class="error-message"></div>
+                        </div>
+
+                        <!-- 7) استخدام محسّنات الأداء -->
+                        <div class="wizard-step" data-field="pedHistory" data-required="true">
+                            <div class="question">هل استخدمت أي محسّنات أداء قبل كده؟</div>
+                            <div class="hint">إجابتك بسرية تامة وبتساعد الكوتش يخطّط صح.</div>
+                            <input type="hidden" name="pedHistory">
+                            <div class="options">
+                                <button type="button" class="option-btn" data-value="لا">لا، دي أول مرة</button>
+                                <button type="button" class="option-btn" data-value="نعم">نعم، استخدمت قبل كده</button>
+                            </div>
+                            <div class="error-message"></div>
+                        </div>
+
+                        <!-- 8) تفاصيل آخر سايكل (تظهر فقط عند "نعم") -->
+                        <div class="wizard-step" data-field="pedDetails" data-skip="true">
+                            <div class="question">اكتبلي آخر سايكل كانت إيه بالتفصيل</div>
+                            <div class="hint">النوع، الجرعات، والمدة إن أمكن.</div>
+                            <textarea class="field" name="pedDetails" placeholder="اكتب التفاصيل هنا..."></textarea>
+                            <div class="error-message"></div>
+                        </div>
+
+                        <!-- 9) الالتزام -->
+                        <div class="wizard-step" data-field="commitment" data-required="true">
+                            <div class="question">مستعد للالتزام 100% بخطة التدريب والدايت والتحاليل؟</div>
+                            <div class="hint">الالتزام هو سرّ النتيجة.</div>
+                            <input type="hidden" name="commitment">
+                            <div class="options">
+                                <button type="button" class="option-btn" data-value="نعم">أيوة، مستعد أبدأ فورًا</button>
+                                <button type="button" class="option-btn" data-value="لا">لسه متردّد</button>
+                            </div>
+                            <div class="error-message"></div>
+                        </div>
+
+                    </div><!-- /#wizard -->
+
+                    <div class="wizard-nav">
+                        <button type="button" class="btn btn-ghost" id="backBtn">السابق</button>
+                        <button type="button" class="btn btn-primary" id="nextBtn">
+                            <span class="btn-label">التالي</span>
+                            <span class="btn-arrow" aria-hidden="true">←</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- النتائج: قبل وبعد -->
+        <section class="section results">
+            <h2>نتائج حقيقية من عملاء زيّك</h2>
+            <p class="section-sub">اسحب الخط عشان تشوف الفرق قبل وبعد الكوتشنج.</p>
+
+            <div class="carousel" id="carousel">
+                <div class="carousel-track">
+
+                    <!-- شريحة 1 -->
+                    <div class="slide active">
+                        <div class="compare">
+                            <!-- للتبديل: استبدل الصور بصور قبل/بعد الحقيقية -->
+                            <img class="img-after" src="assets/images/after-1.svg" alt="بعد">
+                            <img class="img-before" src="assets/images/before-1.svg" alt="قبل">
+                            <span class="label label-before">قبل</span>
+                            <span class="label label-after">بعد</span>
+                            <div class="handle"></div>
+                        </div>
+                        <div class="slide-caption">
+                            <p><strong>العميل الأول</strong> — 4 سنين تمرين، وبعد 16 أسبوع كوتشنج النتيجة اتغيّرت 100%.</p>
+                        </div>
+                    </div>
+
+                    <!-- شريحة 2 -->
+                    <div class="slide">
+                        <div class="compare">
+                            <img class="img-after" src="assets/images/after-2.svg" alt="بعد">
+                            <img class="img-before" src="assets/images/before-2.svg" alt="قبل">
+                            <span class="label label-before">قبل</span>
+                            <span class="label label-after">بعد</span>
+                            <div class="handle"></div>
+                        </div>
+                        <div class="slide-caption">
+                            <p><strong>العميل الثاني</strong> — وصل لشكله المثالي بأمان مع متابعة تحاليل شهرية.</p>
+                        </div>
+                    </div>
+
+                    <!-- شريحة 3 -->
+                    <div class="slide">
+                        <div class="compare">
+                            <img class="img-after" src="assets/images/after-3.svg" alt="بعد">
+                            <img class="img-before" src="assets/images/before-3.svg" alt="قبل">
+                            <span class="label label-before">قبل</span>
+                            <span class="label label-after">بعد</span>
+                            <div class="handle"></div>
+                        </div>
+                        <div class="slide-caption">
+                            <p><strong>العميل الثالث</strong> — التزام كامل بالخطة نتج عنه تحوّل واضح في 12 أسبوع.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="carousel-controls">
+                    <button type="button" class="carousel-arrow prev" aria-label="السابق">‹</button>
+                    <div class="carousel-dots"></div>
+                    <button type="button" class="carousel-arrow next" aria-label="التالي">›</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- الفوتر -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="privacy.html">سياسة الخصوصية</a>
+            <a href="terms.html">الشروط والأحكام</a>
+            <a href="disclaimer.html">إخلاء المسؤولية</a>
+        </div>
+        <p class="disclosure">
+            النتائج تختلف حسب مدى التزامك ولا نضمن نتائج محدّدة · هذا الموقع غير تابع لفيسبوك أو يوتيوب أو جوجل.
+        </p>
+        <p class="copyright">© 2026 أحمد سليم — جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

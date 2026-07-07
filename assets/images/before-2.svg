@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <radialGradient id="v" cx="50%" cy="40%" r="75%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.6"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="#2b2b2b"/>
+  <rect width="800" height="600" fill="url(#v)"/>
+  <!-- جسم نحيف (قبل) -->
+  <g fill="#4a4a4a">
+    <circle cx="400" cy="180" r="44"/>
+    <path d="M356 238 h88 l22 150 q6 38 -20 38 h-116 q-26 0 -20 -38 z"/>
+  </g>
+  <text x="400" y="480" fill="#808080" font-family="Cairo, sans-serif" font-size="82" font-weight="800" text-anchor="middle">قبل</text>
+  <text x="400" y="524" fill="#5c5c5c" font-family="Cairo, sans-serif" font-size="23" text-anchor="middle">صورة العميل — استبدلها</text>
+</svg>
