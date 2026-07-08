@@ -110,6 +110,10 @@ a:hover {
     padding: 1.25rem;
 }
 
+.page[hidden] {
+    display: none;
+}
+
 .section {
     margin-bottom: 2.5rem;
 }
@@ -813,7 +817,9 @@ textarea.field {
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <!-- ============================== صفحة: الرئيسية ============================== -->
+    <div id="page-home" class="container page">
 
         <!-- الهيرو -->
         <header class="hero section">
@@ -1024,12 +1030,256 @@ textarea.field {
 
     </div>
 
-    <!-- الفوتر -->
+    <!-- ============================== صفحة: تم استلام الطلب ============================== -->
+    <div id="page-booked" class="container page" hidden>
+
+        <!-- عنوان التأكيد -->
+        <header class="hero section">
+            <span class="eyebrow">تم الاستلام بنجاح</span>
+            <h1>إيه اللي هيحصل <span class="gold-text">بعد كده</span>؟</h1>
+            <p class="subtitle">تم استلام طلبك بنجاح 🎉 اتفرّج على الفيديو ده لحد النهاية عشان تعرف بالظبط الخطوات الجاية.</p>
+        </header>
+
+        <!-- فيديو الخطوة التانية (مصدر مختلف — مش Wistia) -->
+        <!-- للتبديل: استبدل NEXT_STEPS_VIDEO_ID برابط/معرّف فيديو يوتيوب الحقيقي -->
+        <section class="section">
+            <div class="video-container">
+                <iframe
+                    src="https://www.youtube.com/embed/NEXT_STEPS_VIDEO_ID"
+                    title="فيديو الخطوات الجاية"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </section>
+
+        <!-- نص للعميل -->
+        <section class="section" style="text-align:center;">
+            <h2>أنت دلوقتي على أول الطريق</h2>
+            <p>
+                خلال الساعات الجاية، كوتش أحمد سليم أو فريقه هيراجع بياناتك ويتواصل معاك
+                لتأكيد التفاصيل وموعد المكالمة. كل حاجة بينك وبين الكوتش بسرية تامة.
+            </p>
+            <p>
+                جهّز أسئلتك، وخلّي هدفك واضح في دماغك، عشان نستغل المكالمة بأقصى استفادة.
+            </p>
+        </section>
+
+        <!-- الخطوات الجاية -->
+        <section class="section">
+            <h2 style="text-align:center; margin-bottom:1.5rem;">خطواتك القادمة</h2>
+            <div class="next-steps">
+                <div class="step-card">
+                    <div class="num">1</div>
+                    <div>
+                        <h3>استنّى رسالة منّنا</h3>
+                        <p>هيوصلك بريد إلكتروني بتفاصيل الخطوة الجاية؛ راجع صندوق الوارد والـ Spam.</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="num">2</div>
+                    <div>
+                        <h3>أكّد موعد مكالمتك</h3>
+                        <p>هنحدّد معاك أنسب وقت لمكالمة تعارف قصيرة نفهم فيها هدفك بالتفصيل.</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="num">3</div>
+                    <div>
+                        <h3>جهّز نفسك للبداية</h3>
+                        <p>ابدأ تجمّع أي تحاليل حديثة عندك؛ ده هيسرّع خطتك من أول يوم.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- الأسئلة الشائعة -->
+        <section class="section">
+            <div class="faq-section">
+                <h2 style="text-align:center; margin-bottom:1.5rem;">أسئلة شائعة</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>خصوصيتي آمنة؟</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        نعم، كل حاجة بينك وبين الكوتش بسرية تامة. محدش هيعرف إنك بتاخد كوتشنج، وكل معلوماتك محفوظة بأمان.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>إيه مدة الكوتشنج؟</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        البرنامج مرن، لكن في المتوسط العملاء بيشوفوا نتايج حقيقية في أول 8 لـ 12 أسبوع، وبعدها بنقيّم معاك الخطوة الجاية.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>لو مفيش نتائج؟</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        لو التزمت 100% بالخطة والتحاليل، النتايج بتيجي؛ بس محتاجة صبر وانضباط. الكوتشنج مش سحر، هو علم + التزام.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- زر الحجز -->
+        <!-- للتبديل: استبدل CALENDLY_LINK برابط الحجز الحقيقي -->
+        <section class="section" style="text-align:center;">
+            <p style="margin-bottom:1rem;">جاهز تبدأ؟ احجز مكالمتك دلوقتي.</p>
+            <a href="CALENDLY_LINK" class="cta-button" target="_blank" rel="noopener">احجز مكالمتك الآن</a>
+        </section>
+
+    </div>
+
+    <!-- ============================== صفحة: سياسة الخصوصية ============================== -->
+    <div id="page-privacy" class="container page" hidden>
+        <a href="#" class="back-link" data-page="home">→ الرجوع للصفحة الرئيسية</a>
+        <div class="page-content">
+            <h1>سياسة الخصوصية</h1>
+            <p>آخر تحديث: يوليو 2026</p>
+            <p>
+                خصوصيتك تهمّنا. توضّح هذه السياسة كيف نجمع بياناتك ونستخدمها ونحميها عند استخدامك لهذا الموقع
+                أو تسجيلك للحصول على خدمات الكوتشنج.
+            </p>
+
+            <h2>البيانات التي نجمعها</h2>
+            <ul>
+                <li>البيانات التي تدخلها بنفسك في النموذج: الاسم، البريد الإلكتروني، رقم الهاتف، وأهدافك التدريبية.</li>
+                <li>معلومات تقنية بسيطة مثل مصدر الزيارة (روابط الحملات الإعلانية) لتحسين خدماتنا.</li>
+            </ul>
+
+            <h2>كيف نستخدم بياناتك</h2>
+            <ul>
+                <li>للتواصل معك بخصوص طلبك وتقديم خدمة الكوتشنج المناسبة.</li>
+                <li>لإرسال معلومات وتحديثات متعلقة بالخدمة التي طلبتها.</li>
+                <li>لتحسين تجربتك على الموقع وجودة المتابعة.</li>
+            </ul>
+
+            <h2>مشاركة البيانات</h2>
+            <p>
+                لا نبيع بياناتك الشخصية لأي طرف ثالث. قد نستعين بمزوّدي خدمات موثوقين (مثل أدوات إدارة النماذج
+                والتواصل) لتشغيل الخدمة، وهم ملزمون بالحفاظ على سرية بياناتك.
+            </p>
+
+            <h2>حماية البيانات</h2>
+            <p>
+                نتّخذ إجراءات معقولة لحماية بياناتك من الوصول غير المصرّح به. ومع ذلك، لا يمكن ضمان أمان أي وسيلة
+                نقل عبر الإنترنت بنسبة 100%.
+            </p>
+
+            <h2>حقوقك</h2>
+            <p>
+                يمكنك في أي وقت طلب الاطّلاع على بياناتك أو تعديلها أو حذفها بالتواصل معنا عبر بيانات التواصل
+                المتاحة لديك.
+            </p>
+
+            <h2>التواصل</h2>
+            <p>
+                لأي استفسار بخصوص هذه السياسة، تواصل معنا مباشرة عبر القناة التي وصلك منها هذا العرض.
+            </p>
+        </div>
+    </div>
+
+    <!-- ============================== صفحة: الشروط والأحكام ============================== -->
+    <div id="page-terms" class="container page" hidden>
+        <a href="#" class="back-link" data-page="home">→ الرجوع للصفحة الرئيسية</a>
+        <div class="page-content">
+            <h1>الشروط والأحكام</h1>
+            <p>آخر تحديث: يوليو 2026</p>
+            <p>
+                باستخدامك لهذا الموقع وتقديمك لطلب الاشتراك في خدمة الكوتشنج، فإنك توافق على الشروط والأحكام
+                التالية. برجاء قراءتها بعناية.
+            </p>
+
+            <h2>طبيعة الخدمة</h2>
+            <p>
+                نقدّم خدمة كوتشنج (تدريب ومتابعة تغذية وبروتوكولات) ذات طابع تعليمي وإرشادي. الخدمة ليست بديلاً
+                عن الاستشارة الطبية المتخصصة، ولا نقدّم تشخيصًا أو علاجًا طبيًا.
+            </p>
+
+            <h2>مسؤولية العميل</h2>
+            <ul>
+                <li>تقديم بيانات صحيحة ودقيقة عن حالتك الصحية وتاريخك التدريبي.</li>
+                <li>الالتزام بالخطة الموصى بها، وإجراء التحاليل المطلوبة عند الحاجة.</li>
+                <li>استشارة طبيب مختص قبل البدء في أي بروتوكول متقدم.</li>
+            </ul>
+
+            <h2>المدفوعات</h2>
+            <p>
+                يتم الاتفاق على قيمة الخدمة وطريقة الدفع قبل البدء. برجاء مراجعة صفحة
+                <a href="#" data-page="disclaimer">إخلاء المسؤولية</a> للاطّلاع على الإقرارات المتعلقة بالاشتراك والمدفوعات.
+            </p>
+
+            <h2>حدود المسؤولية</h2>
+            <p>
+                النتائج تختلف من شخص لآخر وتعتمد على مدى التزامك؛ لا نضمن نتائج محدّدة. لا نتحمّل مسؤولية أي ضرر
+                ناتج عن سوء تطبيق الخطة أو إخفاء معلومات صحية.
+            </p>
+
+            <h2>تعديل الشروط</h2>
+            <p>
+                نحتفظ بحق تحديث هذه الشروط في أي وقت، ويسري التحديث فور نشره على هذه الصفحة.
+            </p>
+        </div>
+    </div>
+
+    <!-- ============================== صفحة: إخلاء المسؤولية ============================== -->
+    <div id="page-disclaimer" class="container page" hidden>
+        <a href="#" class="back-link" data-page="home">→ الرجوع للصفحة الرئيسية</a>
+        <div class="page-content">
+            <h1>إخلاء المسؤولية والإقرارات</h1>
+            <p>آخر تحديث: يوليو 2026</p>
+            <p>
+                هذه الصفحة توضّح حدود المسؤولية والإقرارات المهمة المتعلقة بخدمة الكوتشنج. بتقديمك للطلب
+                على الموقع، فإنك تُقرّ بعلمك بهذه البنود وموافقتك عليها.
+            </p>
+
+            <h2>إخلاء المسؤولية الطبية</h2>
+            <p>
+                المحتوى والخدمة المقدَّمة ذات طابع تعليمي وإرشادي فقط، وليست بديلاً عن الاستشارة الطبية
+                المتخصصة. التدريب المتقدم واستخدام أي بروتوكولات له مخاطر، وينبغي دائمًا استشارة طبيب مختص
+                قبل البدء. أنت المسؤول الوحيد عن قراراتك الصحية.
+            </p>
+
+            <h2>إخلاء مسؤولية النتائج</h2>
+            <p>
+                النتائج تختلف اختلافًا كبيرًا من شخص لآخر، وتعتمد على عوامل كثيرة أهمّها مدى التزامك بالخطة.
+                أي نتائج معروضة على الموقع هي أمثلة حقيقية لأشخاص التزموا بالبرنامج، ولا تمثّل ضمانًا بأنك
+                ستحصل على نفس النتيجة.
+            </p>
+
+            <h2>الإقرارات المهمة</h2>
+            <p>بالتقدّم بطلبك، فإنك تُقرّ وتوافق على ما يلي:</p>
+            <ul>
+                <li>أن عمرك فوق الـ 21 عامًا.</li>
+                <li>أنك لا تعاني من أي أمراض مزمنة (ضغط، سكر، كوليسترول) تمنعك من التدريب المتقدم.</li>
+                <li>أنك توافق على إجراء كافة تحاليل الدم المطلوبة وإرسالها للمدرّب.</li>
+                <li>أنك تتفهّم أن التدريب المتقدم له مخاطر، وأنك مسؤول مسؤولية كاملة عن تطبيق الخطة.</li>
+                <li>أنك توافق على أن المبالغ المدفوعة غير قابلة للاسترداد.</li>
+            </ul>
+
+            <h2>عدم الانتساب</h2>
+            <p>
+                هذا الموقع غير تابع ولا مدعوم من فيسبوك أو يوتيوب أو جوجل بأي شكل من الأشكال، وجميع العلامات
+                التجارية ملك لأصحابها.
+            </p>
+        </div>
+    </div>
+
+    <!-- الفوتر (مشترك لكل الصفحات) -->
     <footer class="site-footer">
         <div class="footer-links">
-            <a href="privacy.html">سياسة الخصوصية</a>
-            <a href="terms.html">الشروط والأحكام</a>
-            <a href="disclaimer.html">إخلاء المسؤولية</a>
+            <a href="#" data-page="privacy">سياسة الخصوصية</a>
+            <a href="#" data-page="terms">الشروط والأحكام</a>
+            <a href="#" data-page="disclaimer">إخلاء المسؤولية</a>
         </div>
         <p class="disclosure">
             النتائج تختلف حسب مدى التزامك ولا نضمن نتائج محدّدة · هذا الموقع غير تابع لفيسبوك أو يوتيوب أو جوجل.
@@ -1040,6 +1290,7 @@ textarea.field {
     <script>
 /* ==========================================================================
    أحمد سليم — Funnel كوتشنج | منطق مشترك (vanilla JS، بدون مكتبات)
+   - راوتر الصفحة الواحدة (Single Page) بالـ hash
    - التقاط UTM وتخزينه وتمريره
    - Wizard الأسئلة (سؤال واحد لكل شاشة + شريط تقدّم + تحقّق)
    - سلايدر before/after داخل كاروسيل
@@ -1049,6 +1300,48 @@ textarea.field {
 /* ---------------- إعدادات قابلة للتبديل ---------------- */
 // استبدل هذا الرابط برابط Zapier Webhook الحقيقي
 var ZAPIER_WEBHOOK_URL = 'ZAPIER_WEBHOOK_URL';
+
+/* =======================================================
+   0) راوتر الصفحة الواحدة (Single Page Router)
+   ======================================================= */
+var PAGES = ['home', 'booked', 'privacy', 'terms', 'disclaimer'];
+var PAGE_TITLES = {
+    home: 'أحمد سليم — كوتشنج متقدم بأمان',
+    booked: 'تم استلام طلبك — الخطوة الجاية | أحمد سليم',
+    privacy: 'سياسة الخصوصية | أحمد سليم',
+    terms: 'الشروط والأحكام | أحمد سليم',
+    disclaimer: 'إخلاء المسؤولية والإقرارات | أحمد سليم'
+};
+
+function showPage(name) {
+    if (PAGES.indexOf(name) === -1) name = 'home';
+    PAGES.forEach(function (p) {
+        var el = document.getElementById('page-' + p);
+        if (el) el.hidden = (p !== name);
+    });
+    if (PAGE_TITLES[name]) document.title = PAGE_TITLES[name];
+    window.scrollTo(0, 0);
+}
+
+function initRouter() {
+    document.addEventListener('click', function (e) {
+        var link = e.target.closest('[data-page]');
+        if (!link) return;
+        e.preventDefault();
+        var name = link.dataset.page;
+        if (window.location.hash.replace('#', '') === name) {
+            showPage(name);
+        } else {
+            window.location.hash = name;
+        }
+    });
+
+    window.addEventListener('hashchange', function () {
+        showPage(window.location.hash.replace('#', '') || 'home');
+    });
+
+    showPage(window.location.hash.replace('#', '') || 'home');
+}
 
 /* =======================================================
    1) التقاط UTM وتخزينه في sessionStorage وتمريره للروابط
@@ -1084,15 +1377,14 @@ function utmQueryString() {
     return parts.join('&');
 }
 
-// إلحاق الـ UTM بالروابط الداخلية (نفس الموقع)
+// إلحاق الـ UTM بالروابط الخارجية الحقيقية فقط (مش روابط التنقّل الداخلي بالـ hash)
 function appendUTMToInternalLinks() {
     var qs = utmQueryString();
     if (!qs) return;
     document.querySelectorAll('a[href]').forEach(function (a) {
+        if (a.dataset.page) return;
         var href = a.getAttribute('href');
         if (!href || href.charAt(0) === '#') return;
-        // روابط خارجية أو mailto/tel نتجاهلها
-        if (/^(https?:)?\/\//i.test(href) && href.indexOf(window.location.host) === -1) return;
         if (/^(mailto:|tel:)/i.test(href)) return;
         a.setAttribute('href', href + (href.indexOf('?') === -1 ? '?' : '&') + qs);
     });
@@ -1262,8 +1554,7 @@ function initWizard() {
     }
 
     function redirectToBooked() {
-        var qs = utmQueryString();
-        window.location.href = 'booked.html' + (qs ? ('?' + qs) : '');
+        window.location.hash = 'booked';
     }
 
     showStep(0);
@@ -1353,6 +1644,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initCompareSliders();
     initCarousel();
     initFAQ();
+    initRouter();
 });
     </script>
 </body>
