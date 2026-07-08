@@ -8,7 +8,809 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+/* ==========================================================================
+   أحمد سليم — Funnel كوتشنج | ستايل مشترك (أسود + ذهبي، موبايل أولاً)
+   ========================================================================== */
+
+/* Design tokens */
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #141414;
+    --bg-elevated: #1c1c1c;
+    --accent-gold: #D4AF37;
+    --accent-gold-bright: #ffd700;
+    --gold-gradient: linear-gradient(135deg, #f5d67b 0%, #D4AF37 45%, #b8912a 100%);
+    --text-primary: #ffffff;
+    --text-muted: #a0a0a0;
+    --border-color: #2a2a2a;
+    --error-color: #ff6b6b;
+    --success-color: #51cf66;
+    --radius: 10px;
+    --transition: all 0.3s ease;
+    --shadow-gold: 0 10px 30px rgba(212, 175, 55, 0.25);
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-primary);
+    background-image:
+        radial-gradient(circle at 15% 0%, rgba(212, 175, 55, 0.08), transparent 40%),
+        radial-gradient(circle at 85% 100%, rgba(212, 175, 55, 0.05), transparent 45%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    font-family: 'Cairo', 'Tahoma', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    direction: rtl;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Typography */
+h1 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--accent-gold);
+}
+
+h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+}
+
+a {
+    color: var(--accent-gold);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a:hover {
+    color: var(--accent-gold-bright);
+}
+
+.gold-text {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Layout */
+.container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 1.25rem;
+}
+
+.section {
+    margin-bottom: 2.5rem;
+}
+
+/* Hero */
+.hero {
+    text-align: center;
+    padding: 2rem 0 1.5rem;
+}
+
+.hero .eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: var(--accent-gold);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.hero h1 {
+    color: var(--text-primary);
+}
+
+.hero .subtitle {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Video */
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.video-container iframe,
+.video-container .wistia_responsive_padding,
+.video-container > script + div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* ==========================================================================
+   Wizard (سؤال واحد لكل شاشة + شريط تقدّم)
+   ========================================================================== */
+.wizard {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Progress bar (ثابت أعلى الكارت) */
+.wizard-progress {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background-color: var(--bg-elevated);
+    padding: 1rem 1.25rem 0.85rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.wizard-progress-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.wizard-progress-head .step-count {
+    font-weight: 700;
+    color: var(--accent-gold);
+}
+
+.progress-track {
+    width: 100%;
+    height: 8px;
+    background-color: #333;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--gold-gradient);
+    border-radius: 999px;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wizard-body {
+    padding: 1.75rem 1.25rem;
+}
+
+/* Steps */
+.wizard-step {
+    display: none;
+    animation: fadeInStep 0.35s ease;
+}
+
+.wizard-step.active {
+    display: block;
+}
+
+@keyframes fadeInStep {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.wizard-step .question {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+}
+
+.wizard-step .hint {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+}
+
+/* Text inputs */
+.wizard label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.field {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.field:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+}
+
+textarea.field {
+    resize: vertical;
+    min-height: 110px;
+}
+
+/* Option buttons (بديل الـ select — tap targets كبيرة) */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.option-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    min-height: 56px;
+    padding: 0.9rem 1.1rem;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: right;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.option-btn::before {
+    content: '';
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.option-btn:hover {
+    border-color: var(--accent-gold);
+    transform: translateY(-1px);
+}
+
+.option-btn.selected {
+    border-color: var(--accent-gold);
+    background-color: rgba(212, 175, 55, 0.1);
+}
+
+.option-btn.selected::before {
+    border-color: var(--accent-gold);
+    background-color: var(--accent-gold);
+    box-shadow: inset 0 0 0 4px var(--bg-primary);
+}
+
+/* Navigation buttons */
+.wizard-nav {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+}
+
+.btn {
+    flex: 1;
+    min-height: 58px;
+    padding: 0.95rem 1.75rem;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+}
+
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+    background: var(--gold-gradient);
+    color: #1a1400;
+    letter-spacing: 0.3px;
+    box-shadow: 0 8px 22px rgba(212, 175, 55, 0.28),
+                inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.btn-primary .btn-label,
+.btn-primary .btn-arrow {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-primary .btn-arrow {
+    font-size: 1.3rem;
+    line-height: 1;
+    transition: transform 0.3s ease;
+}
+
+/* لمعة خفيفة تمر على الزر عند المرور */
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(212, 175, 55, 0.42),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.btn-primary:hover::after { left: 130%; }
+.btn-primary:hover .btn-arrow { transform: translateX(-5px); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-ghost {
+    flex: 0 0 auto;
+    min-width: 96px;
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    border-radius: 14px;
+}
+
+.btn-ghost:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+}
+
+/* CTA button (روابط) */
+.cta-button {
+    display: inline-block;
+    background: var(--gold-gradient);
+    color: #1a1400;
+    padding: 1rem 2.25rem;
+    font-size: 1.1rem;
+    border-radius: var(--radius);
+    font-weight: 700;
+    transition: var(--transition);
+}
+
+.cta-button:hover {
+    color: #1a1400;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold);
+}
+
+/* Error messages */
+.error-message {
+    color: var(--error-color);
+    font-size: 0.9rem;
+    margin-top: 0.6rem;
+    min-height: 1.2rem;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+/* ==========================================================================
+   Before / After — كاروسيل + سلايدر سحب
+   ========================================================================== */
+.results {
+    text-align: center;
+}
+
+.results h2 {
+    margin-bottom: 0.4rem;
+}
+
+.results .section-sub {
+    margin-bottom: 1.75rem;
+}
+
+.carousel {
+    position: relative;
+}
+
+.carousel-track {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+}
+
+.slide {
+    display: none;
+}
+
+.slide.active {
+    display: block;
+    animation: fadeInStep 0.4s ease;
+}
+
+.slide .slide-caption {
+    padding: 1rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.slide .slide-caption strong {
+    color: var(--accent-gold);
+}
+
+/* Comparison slider */
+.compare {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius) var(--radius) 0 0;
+    user-select: none;
+    touch-action: none;
+    background-color: var(--bg-elevated);
+}
+
+.compare img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+}
+
+.compare .img-after {
+    z-index: 1;
+}
+
+/* صورة "قبل" بكامل الحجم فوق "بعد"، ونكشفها بالـ clip-path (يمين = قبل) */
+.compare .img-before {
+    z-index: 2;
+    clip-path: inset(0 0 0 50%);
+}
+
+.compare .label {
+    position: absolute;
+    bottom: 12px;
+    z-index: 3;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.65);
+    color: #fff;
+}
+
+.compare .label-before { right: 12px; }
+.compare .label-after  { left: 12px; }
+
+.compare .handle {
+    position: absolute;
+    top: 0;
+    right: 50%;
+    z-index: 4;
+    width: 3px;
+    height: 100%;
+    background: var(--gold-gradient);
+    transform: translateX(50%);
+}
+
+.compare .handle::after {
+    content: '⟷';
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gold-gradient);
+    color: #1a1400;
+    font-weight: 700;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    cursor: ew-resize;
+}
+
+/* Carousel controls */
+.carousel-controls {
+    display: flex;
+    direction: ltr; /* تثبيت اتجاه أزرار التنقّل: يسار = السابق، يمين = التالي */
+    justify-content: center;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+}
+
+.carousel-arrow {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    color: var(--accent-gold);
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.carousel-arrow:hover {
+    border-color: var(--accent-gold);
+    background-color: rgba(212, 175, 55, 0.1);
+}
+
+.carousel-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.carousel-dots .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--border-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.carousel-dots .dot.active {
+    background: var(--gold-gradient);
+    transform: scale(1.2);
+}
+
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
+.faq-section {
+    text-align: right;
+}
+
+.faq-item {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.faq-question {
+    padding: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 700;
+    transition: var(--transition);
+}
+
+.faq-question:hover {
+    background-color: rgba(212, 175, 55, 0.05);
+    color: var(--accent-gold);
+}
+
+.faq-toggle {
+    flex: 0 0 auto;
+    color: var(--accent-gold);
+    transition: transform 0.3s ease;
+}
+
+.faq-item.open .faq-toggle {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    padding: 0 1.25rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    color: var(--text-muted);
+}
+
+.faq-item.open .faq-answer {
+    max-height: 500px;
+    padding-bottom: 1.25rem;
+}
+
+/* ==========================================================================
+   Steps cards (إيه اللي هيحصل بعد كده)
+   ========================================================================== */
+.next-steps {
+    display: grid;
+    gap: 1rem;
+    text-align: right;
+}
+
+.step-card {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+}
+
+.step-card .num {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gold-gradient);
+    color: #1a1400;
+    font-weight: 800;
+    border-radius: 50%;
+}
+
+.step-card h3 {
+    color: var(--accent-gold);
+}
+
+.step-card p {
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Content pages (privacy / terms / disclaimer)
+   ========================================================================== */
+.page-content {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 2rem 1.5rem;
+}
+
+.page-content h1 {
+    color: var(--accent-gold);
+    font-size: 1.7rem;
+}
+
+.page-content h2 {
+    font-size: 1.2rem;
+    margin-top: 1.75rem;
+}
+
+.page-content p,
+.page-content li {
+    color: var(--text-muted);
+}
+
+.page-content ul,
+.page-content ol {
+    padding-right: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.page-content li {
+    margin-bottom: 0.6rem;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.site-footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: 2.5rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.site-footer .footer-links {
+    margin-bottom: 1rem;
+}
+
+.site-footer .footer-links a {
+    margin: 0 0.6rem;
+    color: var(--accent-gold);
+    white-space: nowrap;
+}
+
+.site-footer .disclosure {
+    max-width: 900px;
+    margin: 0 auto 0.6rem;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #7a7a7a;
+}
+
+.site-footer .copyright {
+    font-size: 0.8rem;
+    color: #6a6a6a;
+}
+
+/* ==========================================================================
+   Responsive — desktop تحسينات فوق الأساس الموبايل
+   ========================================================================== */
+@media (min-width: 700px) {
+    h1 { font-size: 2.6rem; }
+    h2 { font-size: 1.8rem; }
+    .hero { padding: 3rem 0 2rem; }
+    .container { padding: 2rem; }
+    .wizard-body { padding: 2.25rem 2rem; }
+    .wizard-step .question { font-size: 1.6rem; }
+    .compare { aspect-ratio: 16 / 10; }
+}
+
+/* شاشات صغيرة جدًا */
+@media (max-width: 360px) {
+    body { font-size: 15px; }
+    .wizard-step .question { font-size: 1.2rem; }
+    .site-footer .footer-links a { display: inline-block; margin: 0.25rem 0.5rem; }
+}
+    </style>
 </head>
 <body>
     <div class="container">
@@ -171,8 +973,8 @@
                     <div class="slide active">
                         <div class="compare">
                             <!-- للتبديل: استبدل الصور بصور قبل/بعد الحقيقية -->
-                            <img class="img-after" src="assets/images/after-1.svg" alt="بعد">
-                            <img class="img-before" src="assets/images/before-1.svg" alt="قبل">
+                            <img class="img-after" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSIzOCUiIHI9Ijc4JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM5YTdhMjIiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI2MiUiIHN0b3AtY29sb3I9IiMxYTEzMDUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMGEwYTBhIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0iIzBmMGIwMyIvPgogIDxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgPCEtLSDYrNiz2YUg2KPYttiu2YUgKNio2LnYrykgLS0+CiAgPGcgZmlsbD0iI0Q0QUYzNyI+CiAgICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSIxNzAiIHI9IjUwIi8+CiAgICA8cGF0aCBkPSJNMjk2IDI0NCBxMTA0IC0zNCAyMDggMCBsMzAgMTQ4IHE4IDQ0IC0yOCA0NCBoLTIxMiBxLTM2IDAgLTI4IC00NCB6Ii8+CiAgPC9nPgogIDx0ZXh0IHg9IjQwMCIgeT0iNDgwIiBmaWxsPSIjZjVkNjdiIiBmb250LWZhbWlseT0iQ2Fpcm8sIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iODYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPtio2LnYrzwvdGV4dD4KICA8dGV4dCB4PSI0MDAiIHk9IjUyNCIgZmlsbD0iI2M3OWEyYiIgZm9udC1mYW1pbHk9IkNhaXJvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7YtdmI2LHYqSDYp9mE2LnZhdmK2YQg4oCUINin2LPYqtio2K/ZhNmH2Kc8L3RleHQ+Cjwvc3ZnPgo=" alt="بعد">
+                            <img class="img-before" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InYiIGN4PSI1MCUiIGN5PSI0MCUiIHI9Ijc1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iNTUlIiBzdG9wLWNvbG9yPSIjMDAwIiBzdG9wLW9wYWNpdHk9IjAiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDAwIiBzdG9wLW9wYWNpdHk9IjAuNiIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiMyYjJiMmIiLz4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2KSIvPgogIDwhLS0g2KzYs9mFINmG2K3ZitmBICjZgtio2YQpIC0tPgogIDxnIGZpbGw9IiM0YTRhNGEiPgogICAgPGNpcmNsZSBjeD0iNDAwIiBjeT0iMTgwIiByPSI0NCIvPgogICAgPHBhdGggZD0iTTM1NiAyMzggaDg4IGwyMiAxNTAgcTYgMzggLTIwIDM4IGgtMTE2IHEtMjYgMCAtMjAgLTM4IHoiLz4KICA8L2c+CiAgPHRleHQgeD0iNDAwIiB5PSI0ODAiIGZpbGw9IiM4MDgwODAiIGZvbnQtZmFtaWx5PSJDYWlybywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI4MiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+2YLYqNmEPC90ZXh0PgogIDx0ZXh0IHg9IjQwMCIgeT0iNTI0IiBmaWxsPSIjNWM1YzVjIiBmb250LWZhbWlseT0iQ2Fpcm8sIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPti12YjYsdipINin2YTYudmF2YrZhCDigJQg2KfYs9iq2KjYr9mE2YfYpzwvdGV4dD4KPC9zdmc+Cg==" alt="قبل">
                             <span class="label label-before">قبل</span>
                             <span class="label label-after">بعد</span>
                             <div class="handle"></div>
@@ -185,8 +987,8 @@
                     <!-- شريحة 2 -->
                     <div class="slide">
                         <div class="compare">
-                            <img class="img-after" src="assets/images/after-2.svg" alt="بعد">
-                            <img class="img-before" src="assets/images/before-2.svg" alt="قبل">
+                            <img class="img-after" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSIzOCUiIHI9Ijc4JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM5YTdhMjIiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI2MiUiIHN0b3AtY29sb3I9IiMxYTEzMDUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMGEwYTBhIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0iIzBmMGIwMyIvPgogIDxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgPCEtLSDYrNiz2YUg2KPYttiu2YUgKNio2LnYrykgLS0+CiAgPGcgZmlsbD0iI0Q0QUYzNyI+CiAgICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSIxNzAiIHI9IjUwIi8+CiAgICA8cGF0aCBkPSJNMjk2IDI0NCBxMTA0IC0zNCAyMDggMCBsMzAgMTQ4IHE4IDQ0IC0yOCA0NCBoLTIxMiBxLTM2IDAgLTI4IC00NCB6Ii8+CiAgPC9nPgogIDx0ZXh0IHg9IjQwMCIgeT0iNDgwIiBmaWxsPSIjZjVkNjdiIiBmb250LWZhbWlseT0iQ2Fpcm8sIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iODYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPtio2LnYrzwvdGV4dD4KICA8dGV4dCB4PSI0MDAiIHk9IjUyNCIgZmlsbD0iI2M3OWEyYiIgZm9udC1mYW1pbHk9IkNhaXJvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7YtdmI2LHYqSDYp9mE2LnZhdmK2YQg4oCUINin2LPYqtio2K/ZhNmH2Kc8L3RleHQ+Cjwvc3ZnPgo=" alt="بعد">
+                            <img class="img-before" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InYiIGN4PSI1MCUiIGN5PSI0MCUiIHI9Ijc1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iNTUlIiBzdG9wLWNvbG9yPSIjMDAwIiBzdG9wLW9wYWNpdHk9IjAiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDAwIiBzdG9wLW9wYWNpdHk9IjAuNiIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiMyYjJiMmIiLz4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2KSIvPgogIDwhLS0g2KzYs9mFINmG2K3ZitmBICjZgtio2YQpIC0tPgogIDxnIGZpbGw9IiM0YTRhNGEiPgogICAgPGNpcmNsZSBjeD0iNDAwIiBjeT0iMTgwIiByPSI0NCIvPgogICAgPHBhdGggZD0iTTM1NiAyMzggaDg4IGwyMiAxNTAgcTYgMzggLTIwIDM4IGgtMTE2IHEtMjYgMCAtMjAgLTM4IHoiLz4KICA8L2c+CiAgPHRleHQgeD0iNDAwIiB5PSI0ODAiIGZpbGw9IiM4MDgwODAiIGZvbnQtZmFtaWx5PSJDYWlybywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI4MiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+2YLYqNmEPC90ZXh0PgogIDx0ZXh0IHg9IjQwMCIgeT0iNTI0IiBmaWxsPSIjNWM1YzVjIiBmb250LWZhbWlseT0iQ2Fpcm8sIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPti12YjYsdipINin2YTYudmF2YrZhCDigJQg2KfYs9iq2KjYr9mE2YfYpzwvdGV4dD4KPC9zdmc+Cg==" alt="قبل">
                             <span class="label label-before">قبل</span>
                             <span class="label label-after">بعد</span>
                             <div class="handle"></div>
@@ -199,8 +1001,8 @@
                     <!-- شريحة 3 -->
                     <div class="slide">
                         <div class="compare">
-                            <img class="img-after" src="assets/images/after-3.svg" alt="بعد">
-                            <img class="img-before" src="assets/images/before-3.svg" alt="قبل">
+                            <img class="img-after" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSI1MCUiIGN5PSIzOCUiIHI9Ijc4JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM5YTdhMjIiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI2MiUiIHN0b3AtY29sb3I9IiMxYTEzMDUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMGEwYTBhIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0iIzBmMGIwMyIvPgogIDxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgPCEtLSDYrNiz2YUg2KPYttiu2YUgKNio2LnYrykgLS0+CiAgPGcgZmlsbD0iI0Q0QUYzNyI+CiAgICA8Y2lyY2xlIGN4PSI0MDAiIGN5PSIxNzAiIHI9IjUwIi8+CiAgICA8cGF0aCBkPSJNMjk2IDI0NCBxMTA0IC0zNCAyMDggMCBsMzAgMTQ4IHE4IDQ0IC0yOCA0NCBoLTIxMiBxLTM2IDAgLTI4IC00NCB6Ii8+CiAgPC9nPgogIDx0ZXh0IHg9IjQwMCIgeT0iNDgwIiBmaWxsPSIjZjVkNjdiIiBmb250LWZhbWlseT0iQ2Fpcm8sIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iODYiIGZvbnQtd2VpZ2h0PSI4MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPtio2LnYrzwvdGV4dD4KICA8dGV4dCB4PSI0MDAiIHk9IjUyNCIgZmlsbD0iI2M3OWEyYiIgZm9udC1mYW1pbHk9IkNhaXJvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7YtdmI2LHYqSDYp9mE2LnZhdmK2YQg4oCUINin2LPYqtio2K/ZhNmH2Kc8L3RleHQ+Cjwvc3ZnPgo=" alt="بعد">
+                            <img class="img-before" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgODAwIDYwMCI+CiAgPGRlZnM+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InYiIGN4PSI1MCUiIGN5PSI0MCUiIHI9Ijc1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iNTUlIiBzdG9wLWNvbG9yPSIjMDAwIiBzdG9wLW9wYWNpdHk9IjAiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDAwIiBzdG9wLW9wYWNpdHk9IjAuNiIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiMyYjJiMmIiLz4KICA8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2KSIvPgogIDwhLS0g2KzYs9mFINmG2K3ZitmBICjZgtio2YQpIC0tPgogIDxnIGZpbGw9IiM0YTRhNGEiPgogICAgPGNpcmNsZSBjeD0iNDAwIiBjeT0iMTgwIiByPSI0NCIvPgogICAgPHBhdGggZD0iTTM1NiAyMzggaDg4IGwyMiAxNTAgcTYgMzggLTIwIDM4IGgtMTE2IHEtMjYgMCAtMjAgLTM4IHoiLz4KICA8L2c+CiAgPHRleHQgeD0iNDAwIiB5PSI0ODAiIGZpbGw9IiM4MDgwODAiIGZvbnQtZmFtaWx5PSJDYWlybywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI4MiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+2YLYqNmEPC90ZXh0PgogIDx0ZXh0IHg9IjQwMCIgeT0iNTI0IiBmaWxsPSIjNWM1YzVjIiBmb250LWZhbWlseT0iQ2Fpcm8sIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPti12YjYsdipINin2YTYudmF2YrZhCDigJQg2KfYs9iq2KjYr9mE2YfYpzwvdGV4dD4KPC9zdmc+Cg==" alt="قبل">
                             <span class="label label-before">قبل</span>
                             <span class="label label-after">بعد</span>
                             <div class="handle"></div>
@@ -235,6 +1037,323 @@
         <p class="copyright">© 2026 أحمد سليم — جميع الحقوق محفوظة.</p>
     </footer>
 
-    <script src="assets/js/main.js"></script>
+    <script>
+/* ==========================================================================
+   أحمد سليم — Funnel كوتشنج | منطق مشترك (vanilla JS، بدون مكتبات)
+   - التقاط UTM وتخزينه وتمريره
+   - Wizard الأسئلة (سؤال واحد لكل شاشة + شريط تقدّم + تحقّق)
+   - سلايدر before/after داخل كاروسيل
+   - أكورديون الأسئلة الشائعة (FAQ)
+   ========================================================================== */
+
+/* ---------------- إعدادات قابلة للتبديل ---------------- */
+// استبدل هذا الرابط برابط Zapier Webhook الحقيقي
+var ZAPIER_WEBHOOK_URL = 'ZAPIER_WEBHOOK_URL';
+
+/* =======================================================
+   1) التقاط UTM وتخزينه في sessionStorage وتمريره للروابط
+   ======================================================= */
+var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'gclid'];
+
+function captureUTM() {
+    var params = new URLSearchParams(window.location.search);
+    UTM_KEYS.forEach(function (key) {
+        var val = params.get(key);
+        if (val) {
+            try { sessionStorage.setItem(key, val); } catch (e) {}
+        }
+    });
+}
+
+function getStoredUTM() {
+    var data = {};
+    UTM_KEYS.forEach(function (key) {
+        var val = '';
+        try { val = sessionStorage.getItem(key) || ''; } catch (e) {}
+        data[key] = val;
+    });
+    return data;
+}
+
+function utmQueryString() {
+    var utm = getStoredUTM();
+    var parts = [];
+    UTM_KEYS.forEach(function (key) {
+        if (utm[key]) parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(utm[key]));
+    });
+    return parts.join('&');
+}
+
+// إلحاق الـ UTM بالروابط الداخلية (نفس الموقع)
+function appendUTMToInternalLinks() {
+    var qs = utmQueryString();
+    if (!qs) return;
+    document.querySelectorAll('a[href]').forEach(function (a) {
+        var href = a.getAttribute('href');
+        if (!href || href.charAt(0) === '#') return;
+        // روابط خارجية أو mailto/tel نتجاهلها
+        if (/^(https?:)?\/\//i.test(href) && href.indexOf(window.location.host) === -1) return;
+        if (/^(mailto:|tel:)/i.test(href)) return;
+        a.setAttribute('href', href + (href.indexOf('?') === -1 ? '?' : '&') + qs);
+    });
+}
+
+/* =======================================================
+   2) Wizard الأسئلة
+   ======================================================= */
+function initWizard() {
+    var wizard = document.getElementById('wizard');
+    if (!wizard) return;
+
+    var steps = Array.prototype.slice.call(wizard.querySelectorAll('.wizard-step'));
+    var progressFill = document.getElementById('progressFill');
+    var stepCount = document.getElementById('stepCount');
+    var backBtn = document.getElementById('backBtn');
+    var nextBtn = document.getElementById('nextBtn');
+    var nextLabel = nextBtn.querySelector('.btn-label');
+    var nextArrow = nextBtn.querySelector('.btn-arrow');
+    var form = document.getElementById('leadForm');
+
+    var current = 0;
+
+    // الخطوات المرئية فعليًا (بعض الخطوات شرطية مثل تفاصيل السايكل)
+    function visibleSteps() {
+        return steps.filter(function (s) { return s.dataset.skip !== 'true'; });
+    }
+
+    function showStep(index) {
+        var vis = visibleSteps();
+        if (index < 0) index = 0;
+        if (index >= vis.length) index = vis.length - 1;
+        current = index;
+
+        steps.forEach(function (s) { s.classList.remove('active'); });
+        vis[current].classList.add('active');
+
+        // شريط التقدّم + العدّاد
+        var total = vis.length;
+        var pct = Math.round(((current + 1) / total) * 100);
+        progressFill.style.width = pct + '%';
+        stepCount.textContent = 'خطوة ' + (current + 1) + ' من ' + total;
+
+        // أزرار التنقّل
+        var isLast = current === total - 1;
+        backBtn.style.display = current === 0 ? 'none' : '';
+        nextLabel.textContent = isLast ? 'أرسل طلبي الآن' : 'التالي';
+        if (nextArrow) nextArrow.style.display = isLast ? 'none' : '';
+
+        // ركّز على أول حقل نصّي
+        var input = vis[current].querySelector('input.field, textarea.field');
+        if (input) setTimeout(function () { input.focus(); }, 60);
+    }
+
+    // اختيار من أزرار الخيارات
+    wizard.addEventListener('click', function (e) {
+        var btn = e.target.closest('.option-btn');
+        if (!btn) return;
+        var step = btn.closest('.wizard-step');
+        step.querySelectorAll('.option-btn').forEach(function (b) { b.classList.remove('selected'); });
+        btn.classList.add('selected');
+
+        var hiddenName = step.dataset.field;
+        var hidden = form.querySelector('input[name="' + hiddenName + '"]');
+        if (hidden) hidden.value = btn.dataset.value;
+
+        clearError(step);
+
+        // منطق شرطي: تفاصيل محسّنات الأداء تظهر فقط عند "نعم"
+        if (hiddenName === 'pedHistory') {
+            var pedStep = document.querySelector('.wizard-step[data-field="pedDetails"]');
+            if (pedStep) pedStep.dataset.skip = (btn.dataset.value === 'نعم') ? 'false' : 'true';
+        }
+
+        // تقدّم تلقائي بعد اختيار (تجربة أسرع على الموبايل)
+        setTimeout(function () { goNext(); }, 250);
+    });
+
+    function validateStep(step) {
+        clearError(step);
+        var field = step.dataset.field;
+
+        // خطوات نصّية مطلوبة
+        var input = step.querySelector('input.field, textarea.field');
+        if (input && input.dataset.required === 'true') {
+            var val = input.value.trim();
+            if (!val) { showError(step, 'من فضلك املأ هذه الخانة عشان نكمل'); return false; }
+            if (input.type === 'email') {
+                var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!re.test(val)) { showError(step, 'اكتب بريدًا إلكترونيًا صحيحًا'); return false; }
+            }
+        }
+
+        // خطوات اختيار مطلوبة
+        if (step.dataset.required === 'true' && step.querySelector('.options')) {
+            var hidden = form.querySelector('input[name="' + field + '"]');
+            if (!hidden || !hidden.value) { showError(step, 'اختر إجابة عشان نكمل'); return false; }
+        }
+        return true;
+    }
+
+    function showError(step, msg) {
+        var el = step.querySelector('.error-message');
+        if (el) { el.textContent = msg; el.classList.add('show'); }
+    }
+
+    function clearError(step) {
+        var el = step.querySelector('.error-message');
+        if (el) el.classList.remove('show');
+    }
+
+    function goNext() {
+        var vis = visibleSteps();
+        var step = vis[current];
+        if (!validateStep(step)) return;
+
+        if (current === vis.length - 1) {
+            submitForm();
+        } else {
+            showStep(current + 1);
+        }
+    }
+
+    function goBack() { showStep(current - 1); }
+
+    nextBtn.addEventListener('click', goNext);
+    backBtn.addEventListener('click', goBack);
+
+    // Enter في الحقول النصّية = التالي
+    wizard.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            goNext();
+        }
+    });
+
+    function collectData() {
+        var data = {};
+        form.querySelectorAll('input[name], textarea[name]').forEach(function (el) {
+            data[el.name] = el.value;
+        });
+        var utm = getStoredUTM();
+        UTM_KEYS.forEach(function (k) { data[k] = utm[k]; });
+        data.pageUrl = window.location.href;
+        data.timestamp = new Date().toISOString();
+        return data;
+    }
+
+    function submitForm() {
+        nextBtn.disabled = true;
+        nextLabel.textContent = 'جارٍ الإرسال...';
+        if (nextArrow) nextArrow.style.display = 'none';
+
+        var payload = collectData();
+
+        fetch(ZAPIER_WEBHOOK_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(function () {
+            redirectToBooked();
+        }).catch(function () {
+            // مع no-cors مفيش استجابة نقرأها؛ نكمّل للصفحة التالية في كل الأحوال
+            redirectToBooked();
+        });
+    }
+
+    function redirectToBooked() {
+        var qs = utmQueryString();
+        window.location.href = 'booked.html' + (qs ? ('?' + qs) : '');
+    }
+
+    showStep(0);
+}
+
+/* =======================================================
+   3) سلايدر before/after (سحب) + كاروسيل
+   ======================================================= */
+function initCompareSliders() {
+    document.querySelectorAll('.compare').forEach(function (cmp) {
+        var beforeImg = cmp.querySelector('.img-before');
+        var handle = cmp.querySelector('.handle');
+
+        function setPos(clientX) {
+            var rect = cmp.getBoundingClientRect();
+            // RTL: نقيس من جهة اليمين. "قبل" على اليمين، والمقبض يتبع المؤشّر.
+            // clip-path مستقل عن ظهور الشريحة، فبيشتغل صح على كل الشرائح.
+            var p = Math.max(0, Math.min(100, ((rect.right - clientX) / rect.width) * 100));
+            beforeImg.style.clipPath = 'inset(0 0 0 ' + (100 - p) + '%)';
+            handle.style.right = p + '%';
+        }
+
+        var dragging = false;
+        function start(e) { dragging = true; move(e); }
+        function stop() { dragging = false; }
+        function move(e) {
+            if (!dragging) return;
+            var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            setPos(clientX);
+            if (e.cancelable) e.preventDefault();
+        }
+
+        cmp.addEventListener('mousedown', start);
+        window.addEventListener('mouseup', stop);
+        window.addEventListener('mousemove', move);
+        cmp.addEventListener('touchstart', start, { passive: false });
+        window.addEventListener('touchend', stop);
+        cmp.addEventListener('touchmove', move, { passive: false });
+    });
+}
+
+function initCarousel() {
+    var carousel = document.getElementById('carousel');
+    if (!carousel) return;
+
+    var slides = Array.prototype.slice.call(carousel.querySelectorAll('.slide'));
+    var dotsWrap = carousel.querySelector('.carousel-dots');
+    var prev = carousel.querySelector('.carousel-arrow.prev');
+    var next = carousel.querySelector('.carousel-arrow.next');
+    var index = 0;
+
+    slides.forEach(function (_, i) {
+        var dot = document.createElement('span');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', function () { show(i); });
+        dotsWrap.appendChild(dot);
+    });
+    var dots = Array.prototype.slice.call(dotsWrap.querySelectorAll('.dot'));
+
+    function show(i) {
+        index = (i + slides.length) % slides.length;
+        slides.forEach(function (s, k) { s.classList.toggle('active', k === index); });
+        dots.forEach(function (d, k) { d.classList.toggle('active', k === index); });
+    }
+
+    // السهم "السابق" (يمين، ‹) يرجع للخلف، و"التالي" (شمال) يتقدّم
+    if (prev) prev.addEventListener('click', function () { show(index - 1); });
+    if (next) next.addEventListener('click', function () { show(index + 1); });
+}
+
+/* =======================================================
+   4) الأسئلة الشائعة (FAQ)
+   ======================================================= */
+function initFAQ() {
+    document.querySelectorAll('.faq-question').forEach(function (q) {
+        q.addEventListener('click', function () {
+            q.closest('.faq-item').classList.toggle('open');
+        });
+    });
+}
+
+/* ---------------- تشغيل ---------------- */
+document.addEventListener('DOMContentLoaded', function () {
+    captureUTM();
+    appendUTMToInternalLinks();
+    initWizard();
+    initCompareSliders();
+    initCarousel();
+    initFAQ();
+});
+    </script>
 </body>
 </html>
