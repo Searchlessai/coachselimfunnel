@@ -1030,14 +1030,32 @@ textarea.field {
 
     </div>
 
+    <!-- ============================== صفحة: حجز المكالمة (Calendly) ============================== -->
+    <div id="page-schedule" class="container page" hidden>
+
+        <header class="hero section">
+            <span class="eyebrow">تم استلام بياناتك بنجاح</span>
+            <h1>باقي خطوة واحدة: <span class="gold-text">احجز مكالمتك</span></h1>
+            <p class="subtitle">اختار اليوم والوقت اللي يناسبك من الكالندر، وأول ما تأكّد الحجز هننقلك تلقائيًا للخطوة الجاية.</p>
+        </header>
+
+        <section class="section" style="text-align:center;">
+            <!-- Calendly inline widget begin -->
+            <div id="calendlyWidget" class="calendly-inline-widget" data-url="https://calendly.com/ahmedselimofficialfit/20min" style="min-width:320px;height:700px;"></div>
+            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+            <!-- Calendly inline widget end -->
+        </section>
+
+    </div>
+
     <!-- ============================== صفحة: تم استلام الطلب ============================== -->
     <div id="page-booked" class="container page" hidden>
 
         <!-- عنوان التأكيد -->
         <header class="hero section">
-            <span class="eyebrow">تم الاستلام بنجاح</span>
+            <span class="eyebrow">تم حجز مكالمتك بنجاح</span>
             <h1>إيه اللي هيحصل <span class="gold-text">بعد كده</span>؟</h1>
-            <p class="subtitle">تم استلام طلبك بنجاح 🎉 اتفرّج على الفيديو ده لحد النهاية عشان تعرف بالظبط الخطوات الجاية.</p>
+            <p class="subtitle">تم تأكيد حجز مكالمتك 🎉 اتفرّج على الفيديو ده لحد النهاية عشان تعرف بالظبط الخطوات الجاية.</p>
         </header>
 
         <!-- فيديو الخطوة التانية (مصدر مختلف — مش Wistia) -->
@@ -1079,8 +1097,8 @@ textarea.field {
                 <div class="step-card">
                     <div class="num">2</div>
                     <div>
-                        <h3>أكّد موعد مكالمتك</h3>
-                        <p>هنحدّد معاك أنسب وقت لمكالمة تعارف قصيرة نفهم فيها هدفك بالتفصيل.</p>
+                        <h3>احضر مكالمتك في معادها</h3>
+                        <p>هيوصلك تأكيد بموعد المكالمة اللي حجزته؛ ضيفه على الكالندر بتاعك عشان ميفوتكش.</p>
                     </div>
                 </div>
                 <div class="step-card">
@@ -1128,16 +1146,6 @@ textarea.field {
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- حجز المكالمة عبر Calendly -->
-        <section class="section" style="text-align:center;">
-            <h2>احجز مكالمتك دلوقتي</h2>
-            <p class="section-sub">اختار الوقت اللي يناسبك من الكالندر وهيتأكد حجزك فورًا.</p>
-            <!-- Calendly inline widget begin -->
-            <div class="calendly-inline-widget" data-url="https://calendly.com/ahmedselimofficialfit/20min" style="min-width:320px;height:700px;"></div>
-            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-            <!-- Calendly inline widget end -->
         </section>
 
     </div>
@@ -1308,10 +1316,11 @@ var SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxIAP8AkBi7W6_B
 /* =======================================================
    0) راوتر الصفحة الواحدة (Single Page Router)
    ======================================================= */
-var PAGES = ['home', 'booked', 'privacy', 'terms', 'disclaimer'];
+var PAGES = ['home', 'schedule', 'booked', 'privacy', 'terms', 'disclaimer'];
 var PAGE_TITLES = {
     home: 'أحمد سليم — كوتشنج متقدم بأمان',
-    booked: 'تم استلام طلبك — الخطوة الجاية | أحمد سليم',
+    schedule: 'احجز مكالمتك | أحمد سليم',
+    booked: 'تم حجز مكالمتك — الخطوة الجاية | أحمد سليم',
     privacy: 'سياسة الخصوصية | أحمد سليم',
     terms: 'الشروط والأحكام | أحمد سليم',
     disclaimer: 'إخلاء المسؤولية والإقرارات | أحمد سليم'
@@ -1550,18 +1559,30 @@ function initWizard() {
             mode: 'no-cors',
             body: JSON.stringify(payload)
         }).then(function () {
-            redirectToBooked();
+            redirectToSchedule();
         }).catch(function () {
             // مع no-cors مفيش استجابة نقرأها؛ نكمّل للصفحة التالية في كل الأحوال
-            redirectToBooked();
+            redirectToSchedule();
         });
     }
 
-    function redirectToBooked() {
-        window.location.hash = 'booked';
+    function redirectToSchedule() {
+        window.location.hash = 'schedule';
     }
 
     showStep(0);
+}
+
+/* =======================================================
+   2.5) Calendly — أول ما اليوزر يأكّد الحجز ننقله لصفحة "الخطوات الجاية"
+   ======================================================= */
+function initCalendlyListener() {
+    window.addEventListener('message', function (e) {
+        if (e.origin.indexOf('https://calendly.com') !== 0) return;
+        if (e.data && e.data.event === 'calendly.event_scheduled') {
+            window.location.hash = 'booked';
+        }
+    });
 }
 
 /* =======================================================
@@ -1645,6 +1666,7 @@ document.addEventListener('DOMContentLoaded', function () {
     captureUTM();
     appendUTMToInternalLinks();
     initWizard();
+    initCalendlyListener();
     initCompareSliders();
     initCarousel();
     initFAQ();
