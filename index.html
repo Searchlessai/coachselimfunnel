@@ -967,6 +967,16 @@ textarea.field {
             </div>
         </section>
 
+        <!-- حجز مكالمة عبر Calendly -->
+        <section class="section" style="text-align:center;">
+            <h2>احجز مكالمتك مباشرة</h2>
+            <p class="section-sub">اختار الوقت اللي يناسبك من الكالندر وهيتأكد حجزك فورًا.</p>
+            <!-- Calendly inline widget begin -->
+            <div class="calendly-inline-widget" data-url="https://calendly.com/ahmedselimofficialfit/20min" style="min-width:320px;height:700px;"></div>
+            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+            <!-- Calendly inline widget end -->
+        </section>
+
         <!-- النتائج: قبل وبعد -->
         <section class="section results">
             <h2>نتائج حقيقية من عملاء زيّك</h2>
@@ -1131,10 +1141,9 @@ textarea.field {
         </section>
 
         <!-- زر الحجز -->
-        <!-- للتبديل: استبدل CALENDLY_LINK برابط الحجز الحقيقي -->
         <section class="section" style="text-align:center;">
             <p style="margin-bottom:1rem;">جاهز تبدأ؟ احجز مكالمتك دلوقتي.</p>
-            <a href="CALENDLY_LINK" class="cta-button" target="_blank" rel="noopener">احجز مكالمتك الآن</a>
+            <a href="https://calendly.com/ahmedselimofficialfit/20min" class="cta-button" target="_blank" rel="noopener">احجز مكالمتك الآن</a>
         </section>
 
     </div>
@@ -1298,8 +1307,9 @@ textarea.field {
    ========================================================================== */
 
 /* ---------------- إعدادات قابلة للتبديل ---------------- */
-// استبدل هذا الرابط برابط Zapier Webhook الحقيقي
-var ZAPIER_WEBHOOK_URL = 'ZAPIER_WEBHOOK_URL';
+// استبدل هذا الرابط برابط Google Apps Script Web App الحقيقي
+// (بيستقبل بيانات الفورم ويكتبها في Google Sheet — راجع README)
+var SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxIAP8AkBi7W6_BDnIfiQJn4i7AxrNfZLalTn13-5eW_dhld5ObNuaut8p26dJDEHiJiw/exec';
 
 /* =======================================================
    0) راوتر الصفحة الواحدة (Single Page Router)
@@ -1540,10 +1550,10 @@ function initWizard() {
 
         var payload = collectData();
 
-        fetch(ZAPIER_WEBHOOK_URL, {
+        // no-cors: الهيدر بيتبعت text/plain تلقائيًا، وApps Script بيقرأ الـ JSON من e.postData.contents
+        fetch(SHEETS_WEBAPP_URL, {
             method: 'POST',
             mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         }).then(function () {
             redirectToBooked();

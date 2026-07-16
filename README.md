@@ -1,65 +1,91 @@
 # Funnel أحمد سليم — دليل التشغيل والتبديل
 
-موقع Funnel كوتشنج بتصميم أسود/ذهبي، عربي بالكامل، موبايل أولاً، جاهز للرفع على **Netlify**
-(اسحب مجلد المشروع بالكامل في Netlify Drop).
+موقع Funnel كوتشنج بتصميم أسود/ذهبي، عربي بالكامل، موبايل أولاً، ملف واحد `index.html`
+جاهز للرفع على **GitHub Pages** (أو أي استضافة static).
 
 ## بنية الملفات
 ```
-index.html        صفحة 1: هيرو + فيديو Wistia + أسئلة (سؤال لكل شاشة) + قبل/بعد + فوتر
-booked.html       صفحة 2: فيديو (مصدر مختلف) + نص للعميل + خطوات + فوتر
-privacy.html      سياسة الخصوصية
-terms.html        الشروط والأحكام
-disclaimer.html   إخلاء المسؤولية + الإقرارات الطبية
-_redirects        روابط نظيفة على Netlify (/booked, /privacy ...)
-assets/css/main.css   كل الستايل
-assets/js/main.js     كل السكربتات (UTM + الأسئلة + سلايدر قبل/بعد + FAQ)
-assets/images/        صور قبل/بعد
+index.html    كل الموقع: الصفحات (home/booked/privacy/terms/disclaimer) بنظام hash routing + الستايل + السكربتات
+_redirects    خاص بـ Netlify فقط — لا تأثير له على GitHub Pages (التنقّل يتم بالـ hash)
 ```
 
 ## أماكن التبديل المطلوبة قبل النشر
 
-| ماذا تبدّل | أين | القيمة الحالية (Placeholder) |
+| ماذا تبدّل | أين في `index.html` | القيمة الحالية (Placeholder) |
 |---|---|---|
-| **فيديو صفحة 1 (Wistia)** | `index.html` — سطر الـ iframe | `MEDIA_ID` داخل الرابط `fast.wistia.net/embed/iframe/MEDIA_ID` |
-| **رابط Zapier Webhook** | `assets/js/main.js` — أعلى الملف | `ZAPIER_WEBHOOK_URL` |
-| **فيديو صفحة 2 (يوتيوب)** | `booked.html` — سطر الـ iframe | `NEXT_STEPS_VIDEO_ID` |
-| **رابط الحجز (Calendly)** | `booked.html` — زر «احجز مكالمتك» | `CALENDLY_LINK` |
-| **صور قبل/بعد** | `assets/images/` | `before-1.jpg` / `after-1.jpg` ... حتى 3 |
+| **فيديو صفحة 1 (Wistia)** | سطر الـ iframe في الهيرو | `MEDIA_ID` داخل `fast.wistia.net/embed/iframe/MEDIA_ID` |
+| **رابط استقبال البيانات** | أعلى قسم السكربت | `SHEETS_WEBAPP_URL` |
+| **فيديو صفحة 2 (يوتيوب)** | iframe صفحة booked | `NEXT_STEPS_VIDEO_ID` |
+| **صور قبل/بعد** | قسم النتائج | روابط الصور |
 
-### 1) فيديو Wistia (صفحة 1)
-في `index.html` استبدل `MEDIA_ID`:
-```html
-<iframe src="https://fast.wistia.net/embed/iframe/xxxxxx?videoFoam=true" ...></iframe>
+رابط الحجز (Calendly) مضبوط بالفعل: ودجت مدمج تحت الفورم + زر في صفحة booked
+على `https://calendly.com/ahmedselimofficialfit/20min`.
+
+## تدفق البيانات (مجاني بالكامل)
+
 ```
-(الـ `xxxxxx` هو معرّف الفيديو من لوحة Wistia.)
+الفورم → Google Apps Script Web App → Google Sheet → Zapier (خطوتان) → إشعار Slack
+```
 
-### 2) رابط Zapier
-في `assets/js/main.js`:
+- الكتابة في Google Sheet تتم مباشرة عبر Apps Script (مجاني — لا يستهلك مهام Zapier).
+- Zapier المجاني يُستخدم فقط للإشعار: كل عميل = مهمة واحدة → 100 عميل/شهر ضمن الحد المجاني.
+- **لا نستخدم Webhooks by Zapier** لأنه تطبيق Premium غير متاح في الخطة المجانية.
+
+### الخطوة 1: Google Sheet + Apps Script
+
+1. أنشئ Google Sheet جديد (سمِّه مثلاً «Leads أحمد سليم»).
+2. من القائمة: **Extensions ← Apps Script**، امسح الكود الموجود والصق:
+
 ```js
-var ZAPIER_WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/xxxx/yyyy/';
+var SHEET_NAME = 'Leads';
+var HEADERS = ['timestamp', 'name', 'email', 'phone', 'goal', 'trainingDuration',
+    'monthlyBudget', 'pedHistory', 'pedDetails', 'commitment', 'pageUrl',
+    'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'gclid'];
+
+function doPost(e) {
+    var data = {};
+    try { data = JSON.parse(e.postData.contents); } catch (err) {}
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
+    if (sheet.getLastRow() === 0) sheet.appendRow(HEADERS);
+    sheet.appendRow(HEADERS.map(function (h) { return data[h] || ''; }));
+    return ContentService.createTextOutput(JSON.stringify({ ok: true }))
+        .setMimeType(ContentService.MimeType.JSON);
+}
 ```
-> النموذج يرسل بـ `mode: 'no-cors'`، فالمتصفح لا يقرأ ردّ Zapier — هذا طبيعي، والانتقال لصفحة
-> booked يتم في كل الأحوال. البيانات المرسلة: كل حقول النموذج + كل الـ UTM + رابط الصفحة + الوقت.
 
-### 3) فيديو صفحة 2
-في `booked.html` استبدل `NEXT_STEPS_VIDEO_ID` بمعرّف فيديو يوتيوب (الجزء اللي بعد `watch?v=`).
+3. **Deploy ← New deployment ← Web app**:
+   - Execute as: **Me**
+   - Who has access: **Anyone**
+4. انسخ رابط الـ Web app (بيبدأ بـ `https://script.google.com/macros/s/...`)
+   وحطه مكان `SHEETS_WEBAPP_URL` في `index.html`.
 
-### 4) رابط الحجز
-في `booked.html` استبدل `CALENDLY_LINK` برابط Calendly أو أي أداة حجز.
+> ملاحظة: عند أي تعديل لاحق في كود Apps Script لازم تعمل **New deployment** جديد
+> (أو Manage deployments ← Edit ← New version) عشان التعديل يشتغل.
 
-### 5) صور قبل/بعد
-ضع الصور الحقيقية في `assets/images/` بنفس الأسماء:
-`before-1.jpg`, `after-1.jpg`, `before-2.jpg`, `after-2.jpg`, `before-3.jpg`, `after-3.jpg`.
-يفضّل أن تكون كل صورتين (قبل/بعد) بنفس المقاس والزاوية لأفضل تأثير للسلايدر.
+### الخطوة 2: Zapier (إشعار Slack)
+
+Zap واحد من خطوتين (متاح في الخطة المجانية):
+
+1. **Trigger:** Google Sheets ← *New Spreadsheet Row* ← اختر الشيت وتبويب `Leads`.
+2. **Action:** Slack ← *Send Channel Message* ← اختر القناة وصِغ الرسالة من حقول الصف
+   (مثلاً: «🔥 عميل جديد: {{name}} — {{phone}} — الهدف: {{goal}} — الميزانية: {{monthlyBudget}}»).
+
+> الخطة المجانية بتعمل فحص (Polling) كل 15 دقيقة، فإشعار Slack ممكن يتأخر لحد ربع ساعة
+> عن لحظة التسجيل. البيانات نفسها بتوصل الشيت فورًا.
+
+### ملاحظة تقنية عن الإرسال
+النموذج يرسل بـ `mode: 'no-cors'` (بدون هيدر JSON — المتصفح يبعته `text/plain`
+وApps Script يقرأه من `e.postData.contents`). المتصفح لا يقرأ الرد، والانتقال لصفحة
+booked يتم في كل الأحوال. البيانات المرسلة: كل حقول النموذج + كل الـ UTM + رابط الصفحة + الوقت.
 
 ## تتبّع الحملات (UTM)
 عند فتح الرابط بمعاملات مثل `?utm_source=fb&utm_campaign=x`، تُلتقط تلقائيًا، تُحفظ في المتصفح،
-تُلحق بروابط الفوتر، وتُرسل مع بيانات النموذج، وتُمرّر لصفحة booked.
+تُلحق بروابط الفوتر، وتُرسل مع بيانات النموذج.
 
 ## معاينة محلية
 من جذر المشروع:
 ```
 npx serve
 ```
-ثم افتح الرابط الظاهر. (ملاحظة: `_redirects` يعمل على Netlify فقط؛ محليًا استخدم روابط `.html`
-المباشرة، وهي مضبوطة كذلك في كل الصفحات.)
+ثم افتح الرابط الظاهر.
