@@ -1042,8 +1042,8 @@ textarea.field {
         <section class="section" style="text-align:center;">
             <!-- Calendly inline widget begin -->
             <!-- data-cal-url بدل data-url: بنمنع الـ auto-mount عشان نركّب الودجت يدويًا مع الاسم والإيميل -->
-            <!-- سكربت widget.js بيتحمّل من mountCalendly() في الـ JS -->
             <div id="calendlyWidget" class="calendly-inline-widget" data-cal-url="https://calendly.com/ahmedselimofficialfit/20min" style="min-width:320px;height:700px;"></div>
+            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
             <!-- Calendly inline widget end -->
         </section>
 
@@ -1344,7 +1344,6 @@ function showPage(name) {
    حتى لو اتعمل reload للصفحة.
    ======================================================= */
 var calMounted = false;
-var calScriptLoading = false;
 
 function getCalPrefill() {
     try {
@@ -1354,32 +1353,11 @@ function getCalPrefill() {
     }
 }
 
-// نحمّل سكربت Calendly بأنفسنا ونستنى onload عشان نضمن إن window.Calendly اتعرّف
-function loadCalendlyScript(cb) {
-    if (window.Calendly) { cb(); return; }
-    var existing = document.getElementById('calendlyScript');
-    if (existing) {
-        existing.addEventListener('load', cb);
-        return;
-    }
-    var s = document.createElement('script');
-    s.id = 'calendlyScript';
-    s.src = 'https://assets.calendly.com/assets/external/widget.js';
-    s.async = true;
-    s.addEventListener('load', cb);
-    document.head.appendChild(s);
-}
-
 function mountCalendly() {
     var el = document.getElementById('calendlyWidget');
     if (!el || calMounted) return;
-    if (!window.Calendly) {
-        if (!calScriptLoading) {
-            calScriptLoading = true;
-            loadCalendlyScript(function () { calScriptLoading = false; mountCalendly(); });
-        }
-        return;
-    }
+    // سكربت widget.js بيتحمّل من التاج اللي في صفحة الحجز؛ نستنّاه لو لسه محمّلش
+    if (!window.Calendly) { setTimeout(mountCalendly, 200); return; }
 
     var prefill = getCalPrefill();
     var url = el.getAttribute('data-cal-url');
